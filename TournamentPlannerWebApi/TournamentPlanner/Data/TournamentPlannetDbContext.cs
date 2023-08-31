@@ -83,9 +83,19 @@ namespace TournamentPlanner.Data
 				.ContinueWith(_ => match);
 		}
 
-		public Task<IList<Match>> GetIncompleteMatches()
+		public async Task<IList<Match>> GetIncompleteMatches()
 		{
+			var incompletedMatches = await Matches.Where(m => m.Winner == null)
+				.AsNoTracking()
+				.ToListAsync();
 
+			return incompletedMatches;
+		}
+
+		public async Task DeleteEverything()
+		{
+			await Matches.ForEachAsync(match => Remove(match));
+			await SaveChangesAsync();
 		}
 
 
