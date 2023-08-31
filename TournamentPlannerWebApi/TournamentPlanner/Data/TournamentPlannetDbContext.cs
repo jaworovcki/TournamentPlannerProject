@@ -81,8 +81,13 @@ namespace TournamentPlanner.Data
 
 			return await SaveChangesAsync()
 				.ContinueWith(_ => match);
+		}
+
+		public Task<IList<Match>> GetIncompleteMatches()
+		{
 
 		}
+
 
 
 	}
