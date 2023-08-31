@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace TournamentPlanner.Data
 {
@@ -34,6 +35,8 @@ namespace TournamentPlanner.Data
 
 		}
 
+		public enum PlayerNumber { Player1 = 1, Player2 = 2 };
+
 		public async Task<Player> AddPlayer(Player newPlayer)
 		{
 			Players.Add(newPlayer);
@@ -54,5 +57,33 @@ namespace TournamentPlanner.Data
 			return await SaveChangesAsync()
 				.ContinueWith(_ => newMatch);
 		}
+
+		public async Task<Match> SetWinner(int matchId, PlayerNumber player)
+		{
+			var match = await Matches.FirstOrDefaultAsync(m => m.ID == matchId);
+
+			if (match != null)
+			{
+				if (player.Equals(1))
+				{
+					match.Winner = match.FirstPlayer;
+				}
+				else
+				{
+					match.Winner = match.SecondPlayer;
+
+				}
+			}
+			else
+			{
+				throw new Exception("Match is not found");
+			}
+
+			return await SaveChangesAsync()
+				.ContinueWith(_ => match);
+
+		}
+
+
 	}
 }
