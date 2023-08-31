@@ -9,16 +9,16 @@ namespace TournamentPlanner.Data
 		[Range(1, 5)]
 		public int Round { get; set; }
 
-		public Player FirstPlayer { get; set; } = null!;
+		public Player? FirstPlayer { get; set; }
 
-        public int FistPlayerID { get; set; }
+        public int FirstPlayerID { get; set; }
 
-        public Player SecondPlayer { get; set; } = null!;
+        public Player? SecondPlayer { get; set; } 
 
         public int SecondPlayerID { get; set; }
 
-        public Player? WinnerPlayer { get; set; }
+        public Player? Winner { get; set; }
 
-        public int? WinnerPlayerID { get; set; }
+        public int? WinnerID { get; set; }
     }
 }

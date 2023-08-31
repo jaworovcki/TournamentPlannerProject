@@ -11,5 +11,27 @@ namespace TournamentPlanner.Data
         public TournamentPlannetDbContext(DbContextOptions<TournamentPlannetDbContext> options)
             : base(options)
         { }
-    }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Match>()
+				.HasOne(m => m.FirstPlayer)
+				.WithMany()
+				.HasForeignKey(m => m.FirstPlayerID)
+				.OnDelete(DeleteBehavior.NoAction);
+
+			modelBuilder.Entity<Match>()
+				.HasOne(m => m.SecondPlayer)
+				.WithMany()
+				.HasForeignKey(m => m.SecondPlayerID)
+				.OnDelete(DeleteBehavior.NoAction);
+
+			modelBuilder.Entity<Match>()
+				.HasOne(m => m.Winner)
+				.WithMany()
+				.HasForeignKey(m => m.WinnerID)
+				.OnDelete(DeleteBehavior.NoAction);
+
+		}
+	}
 }
