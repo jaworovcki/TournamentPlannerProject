@@ -32,7 +32,6 @@ namespace TournamentPlanner.Data
 				.WithMany()
 				.HasForeignKey(m => m.WinnerID)
 				.OnDelete(DeleteBehavior.NoAction);
-
 		}
 
 		public enum PlayerNumber { Player1 = 1, Player2 = 2 };
@@ -64,15 +63,12 @@ namespace TournamentPlanner.Data
 
 			if (match != null)
 			{
-				if (player.Equals(1))
+				match.Winner = player switch
 				{
-					match.Winner = match.FirstPlayer;
-				}
-				else
-				{
-					match.Winner = match.SecondPlayer;
-
-				}
+					PlayerNumber.Player1 => match.FirstPlayer,
+					PlayerNumber.Player2 => match.SecondPlayer,
+					_ => throw new ArgumentOutOfRangeException(nameof(player)),
+				};
 			}
 			else
 			{
@@ -83,14 +79,10 @@ namespace TournamentPlanner.Data
 				.ContinueWith(_ => match);
 		}
 
-		public async Task<IList<Match>> GetIncompleteMatches()
-		{
-			var incompletedMatches = await Matches.Where(m => m.Winner == null)
+		public async Task<IList<Match>> GetIncompleteMatches() 
+			=> await Matches.Where(m => m.Winner == null)
 				.AsNoTracking()
 				.ToListAsync();
-
-			return incompletedMatches;
-		}
 
 		public async Task DeleteEverything()
 		{
@@ -99,7 +91,7 @@ namespace TournamentPlanner.Data
 			await SaveChangesAsync();
 		}
 
-		public async Task<IList<Player>> GetFilteredPlayers(string? playerFilter = null)
+		public async Task<IList<Player>> GetFilteredPlayers(string playerFilter = null)
 		{
 			var players = await Players.Where(player => player.Name.Contains(playerFilter))
 				.ToListAsync();
@@ -114,7 +106,72 @@ namespace TournamentPlanner.Data
 			}
 		}
 
+		public async Task GenerateMatchesForNextRound()
+		{
+			if (Matches.Any(m => m.Winner == null))
+				throw new Exception("Not all matches have been finished!");
 
+			if (await Players.CountAsync() != 32)
+				throw new Exception("Incorrect number of players!");
 
+			var numOfMatches = await Matches.CountAsync();
+			switch (numOfMatches)
+			{
+				case 0:
+					AddFirstRound(Matches, await GetFilteredPlayers());
+					break;
+				case var n when n is 16 or 24 or 28 or 32:
+					await AddSubsequentRound(Matches);
+					break;
+				default:
+					throw new InvalidOperationException("Invalid number of rounds!");
+			}
+
+			await SaveChangesAsync();
+		}
+
+		static void AddFirstRound(DbSet<Match> matches, IList<Player> players)
+		{
+			var rnd = new Random();
+			for (var i = 0; i < 16; i++)
+			{
+				var player1 = players[rnd.Next(players.Count)];
+				players.Remove(player1);
+				var player2 = players[rnd.Next(players.Count)];
+				players.Remove(player2);
+
+				matches.Add(new()
+				{
+					FirstPlayer = player1,
+					SecondPlayer = player2,
+					Round = 1
+				}); ;
+			}
+		}
+
+		static async Task AddSubsequentRound(DbSet<Match> matches)
+		{
+			var rnd = new Random();
+			var prevRound = await matches.MaxAsync(m => m.Round);
+			var prevRoundMatches = await matches.Where(m => m.Round == prevRound)
+				.ToListAsync();
+			var winnersList = prevRoundMatches.Select(m => m.Winner)
+					.ToList();
+
+			for (var n = prevRoundMatches.Count()/2; n > 0; n--)
+			{
+				var player1 = winnersList[rnd.Next(winnersList.Count)];
+				winnersList.Remove(player1);
+				var player2 = winnersList[rnd.Next(winnersList.Count)];
+				winnersList.Remove(player2);
+
+				matches.Add(new()
+				{
+					FirstPlayer = player1,
+					SecondPlayer = player2,
+					Round = prevRound + 1
+				});
+			}
+		}
 	}
 }
