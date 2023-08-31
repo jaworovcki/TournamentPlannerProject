@@ -40,5 +40,19 @@ namespace TournamentPlanner.Data
 			return await SaveChangesAsync()
 				.ContinueWith(_ => newPlayer);
 		}
+
+		public async Task<Match> AddMatch(int player1Id, int player2Id, int round)
+		{
+			var newMatch = new Match
+			{
+				FirstPlayerID = player1Id,
+				SecondPlayerID = player2Id,
+				Round = round
+			};
+
+			Matches.Add(newMatch);
+			return await SaveChangesAsync()
+				.ContinueWith(_ => newMatch);
+		}
 	}
 }
