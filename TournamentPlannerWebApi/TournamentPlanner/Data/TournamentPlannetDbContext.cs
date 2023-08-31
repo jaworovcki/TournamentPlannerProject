@@ -95,7 +95,23 @@ namespace TournamentPlanner.Data
 		public async Task DeleteEverything()
 		{
 			await Matches.ForEachAsync(match => Remove(match));
+			await Players.ForEachAsync(player => Remove(player));
 			await SaveChangesAsync();
+		}
+
+		public async Task<IList<Player>> GetFilteredPlayers(string? playerFilter = null)
+		{
+			var players = await Players.Where(player => player.Name.Contains(playerFilter))
+				.ToListAsync();
+
+			if (players.Any())
+			{
+				return players;
+			}
+			else
+			{
+				return await Players.ToListAsync();
+			}
 		}
 
 
