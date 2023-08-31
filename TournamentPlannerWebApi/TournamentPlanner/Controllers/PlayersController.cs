@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TournamentPlanner.Data;
 
 namespace TournamentPlanner.Controllers
@@ -13,6 +14,11 @@ namespace TournamentPlanner.Controllers
         {
 			_dbContext = dbContext;
 		}
+
+		[HttpGet("players")]
+		public async Task<IList<Player>> GetAllPlayersAsync() => await _dbContext.Players
+			.AsNoTracking()
+			.ToListAsync();
 
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using TournamentPlanner.Data;
+using static TournamentPlanner.Data.TournamentPlannerDbContext;
 
 namespace TournamentPlannerTests
 {

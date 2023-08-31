@@ -9,7 +9,9 @@ namespace TournamentPlanner.Data
 
         public DbSet<Match> Matches { get; set; } = null!;
 
-        public TournamentPlannerDbContext(DbContextOptions<TournamentPlannerDbContext> options)
+		public enum PlayerNumber { Player1 = 1, Player2 = 2 };
+
+		public TournamentPlannerDbContext(DbContextOptions<TournamentPlannerDbContext> options)
             : base(options)
         { }
 
@@ -34,7 +36,6 @@ namespace TournamentPlanner.Data
 				.OnDelete(DeleteBehavior.NoAction);
 		}
 
-		public enum PlayerNumber { Player1 = 1, Player2 = 2 };
 
 		public async Task<Player> AddPlayer(Player newPlayer)
 		{

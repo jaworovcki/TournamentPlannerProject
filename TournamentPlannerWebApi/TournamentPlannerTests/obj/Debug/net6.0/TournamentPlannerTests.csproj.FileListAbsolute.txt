@@ -1,0 +1,6 @@
+C:\dotnet\TournamentPlannerProject\TournamentPlannerWebApi\TournamentPlannerTests\bin\Debug\net6.0\CoverletSourceRootsMapping_TournamentPlannerTests
+C:\dotnet\TournamentPlannerProject\TournamentPlannerWebApi\TournamentPlannerTests\obj\Debug\net6.0\TournamentPlannerTests.csproj.AssemblyReference.cache
+C:\dotnet\TournamentPlannerProject\TournamentPlannerWebApi\TournamentPlannerTests\obj\Debug\net6.0\TournamentPlannerTests.GeneratedMSBuildEditorConfig.editorconfig
+C:\dotnet\TournamentPlannerProject\TournamentPlannerWebApi\TournamentPlannerTests\obj\Debug\net6.0\TournamentPlannerTests.AssemblyInfoInputs.cache
+C:\dotnet\TournamentPlannerProject\TournamentPlannerWebApi\TournamentPlannerTests\obj\Debug\net6.0\TournamentPlannerTests.AssemblyInfo.cs
+C:\dotnet\TournamentPlannerProject\TournamentPlannerWebApi\TournamentPlannerTests\obj\Debug\net6.0\TournamentPlannerTests.csproj.CoreCompileInputs.cache

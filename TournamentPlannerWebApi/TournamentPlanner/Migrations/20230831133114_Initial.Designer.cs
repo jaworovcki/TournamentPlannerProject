@@ -11,7 +11,7 @@ using TournamentPlanner.Data;
 
 namespace TournamentPlanner.Migrations
 {
-    [DbContext(typeof(TournamentPlannetDbContext))]
+    [DbContext(typeof(TournamentPlannerDbContext))]
     [Migration("20230831133114_Initial")]
     partial class Initial
     {
