@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0t8MHXBnynO/QI4DeWMmEZuNasroo+r+Mywq4qZCHgNRGVnXEFql9cgu9Qqq/W0RCP6VsKAhxHN23GfWkkPtvw==",
+  "dgSpecHash": "LJmjRoLTzG3Nxgty40PXoNrtn2vxivUONx3NDGD7sp4KADOFZKBU/MTfoKyQlkbkRCoHMH1vk6Sg45xULx/XPQ==",
   "success": true,
   "projectFilePath": "C:\\dotnet\\TournamentPlannerProject\\TournamentPlannerWebApi\\TournamentPlanner\\TournamentPlanner.csproj",
   "expectedPackageFiles": [

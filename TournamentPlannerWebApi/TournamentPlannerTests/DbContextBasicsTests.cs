@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Threading.Tasks;
 using TournamentPlanner.Data;
 using Xunit;
+using static TournamentPlanner.Data.TournamentPlannerDbContext;
 
 namespace TournamentPlannerTests
 {
